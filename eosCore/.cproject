@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="intel.linux.x86_64.so.rel.1695024849_14.0.0">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="intel.linux.x86_64.so.rel.1695024849_14.0.0" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/eosCore"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/eosCore/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="eosCore" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ICCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="so" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="intel.linux.x86_64.so.rel.1695024849_14.0.0" name="Release" parent="intel.linux.x86_64.so.rel_14.0.0">
+					<folderInfo id="intel.linux.x86_64.so.rel.1695024849._14.0.0" name="/" resourcePath="">
+						<toolChain id="intel.toolchain.linux.x86_64.so.rel.2105330845_14.0.0" name="Intel Toolchain for Shared Library on Intel(R) 64" superClass="intel.toolchain.linux.x86_64.so.rel_14.0.0">
+							<targetPlatform archList="x86_64" binaryParser="org.eclipse.cdt.core.ELF" id="intel.platform.linux.x86_64.so.rel_14.0.0.544047233" name="Platform.So.Release" osList="linux" superClass="intel.platform.linux.x86_64.so.rel_14.0.0"/>
+							<builder buildPath="${workspace_loc:/eosCore}/Release" id="intel.builder.linux.x86_64.so.rel.1180938535_14.0.0" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Intel Builder" superClass="intel.builder.linux.x86_64.so.rel_14.0.0"/>
+							<tool id="intel.cpp.compilestep.linux.x86_64.so.rel.758462441_14.0.0" name="Intel Intel(R) 64 C++ Compiler " superClass="intel.cpp.compilestep.linux.x86_64.so.rel_14.0.0">
+								<option id="intel.compilestep.preprocessor.includedirectories.388252619" name="Additional Include Directories (-I)" superClass="intel.compilestep.preprocessor.includedirectories" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/const/Загрузки/boost_1_55_0"/>
+									<listOptionValue builtIn="false" value="/usr/include/python2.7"/>
+								</option>
+								<option id="intel.compilestep.optimization.ip.573816682" name="Enable Interprocedural Optimization for Single File Compilation (-ip)" superClass="intel.compilestep.optimization.ip" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.optimization.ipo.7332924" name="Enable Whole Program Optimization (-ipo)" superClass="intel.compilestep.optimization.ipo" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.general.debug.cpp.x86_64.so.rel.1840645761_14.0.0" name="Include Debug Information (-g)" superClass="intel.compilestep.general.debug.cpp.x86_64.so.rel_14.0.0" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.optimization.inline.expand1.1001903601" name="Inline Function Expansion" superClass="intel.compilestep.optimization.inline.expand1" value="inl.exp1.anysuitable" valueType="enumerated"/>
+								<option id="intel.compilestep.opt.matmul.1819475591" name="Optimize Matrix Multiplication" superClass="intel.compilestep.opt.matmul" value="matmul.enable" valueType="enumerated"/>
+								<option id="intel.compilestep.optimization.parallel.34487503" name="Parallelization (-parallel)" superClass="intel.compilestep.optimization.parallel" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.general.optimization2.1619539370" name="Optimization Level" superClass="intel.compilestep.general.optimization2" value="general.opt.speedHLO" valueType="enumerated"/>
+								<inputType id="intel.cpp.compilestep.input.1482313907" superClass="intel.cpp.compilestep.input"/>
+							</tool>
+							<tool id="intel.c.compilestep.linux.x86_64.so.rel.650768703_14.0.0" name="Intel Intel(R) 64 C Compiler" superClass="intel.c.compilestep.linux.x86_64.so.rel_14.0.0">
+								<option id="intel.compilestep.preprocessor.includedirectories.1653311732" name="Additional Include Directories (-I)" superClass="intel.compilestep.preprocessor.includedirectories" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/const/Загрузки/boost_1_55_0"/>
+									<listOptionValue builtIn="false" value="/usr/include/python2.7"/>
+								</option>
+								<inputType id="intel.c.compilestep.input.1250376304" superClass="intel.c.compilestep.input"/>
+							</tool>
+							<tool id="intel.c.linkstep.so.linux.x86_64.rel.2042458554_14.0.0" name="Intel Intel(R) 64 C Linker" superClass="intel.c.linkstep.so.linux.x86_64.rel_14.0.0"/>
+							<tool id="intel.cpp.linkstep.so.linux.x86_64.rel.1398643387_14.0.0" name="Intel Intel(R) 64 C++ Linker" superClass="intel.cpp.linkstep.so.linux.x86_64.rel_14.0.0">
+								<option id="intel.linkstep.libname.769176808" name="Additional Libraries (-l)" superClass="intel.linkstep.libname" valueType="libs">
+									<listOptionValue builtIn="false" value="boost_python"/>
+									<listOptionValue builtIn="false" value="gslcblas"/>
+									<listOptionValue builtIn="false" value="gsl"/>
+								</option>
+								<option id="intel.linkstep.parallel.1279126172" name="Parallelization (-parallel)" superClass="intel.linkstep.parallel" value="true" valueType="boolean"/>
+								<inputType id="intel.linkstep.input.1471681932" superClass="intel.linkstep.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<outputType id="intel.cpp.linkstep.so.x86_64.output.1326027576" outputPrefix="" superClass="intel.cpp.linkstep.so.x86_64.output"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="intel.linux.x86_64.so.dbg.658767057_14.0.0">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="intel.linux.x86_64.so.dbg.658767057_14.0.0" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/eosCore"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/eosCore/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="eosCore" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ICCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="so" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="intel.linux.x86_64.so.dbg.658767057_14.0.0" name="Debug" parent="intel.linux.x86_64.so.dbg_14.0.0">
+					<folderInfo id="intel.linux.x86_64.so.dbg.658767057._14.0.0" name="/" resourcePath="">
+						<toolChain id="intel.toolchain.linux.x86_64.so.dbg.859755052_14.0.0" name="Intel Toolchain for Shared Library on Intel(R) 64" superClass="intel.toolchain.linux.x86_64.so.dbg_14.0.0">
+							<targetPlatform archList="x86_64" binaryParser="org.eclipse.cdt.core.ELF" id="intel.platform.linux.x86_64.so.dbg_14.0.0.2141558509" name="Platform.So.Debug" osList="linux" superClass="intel.platform.linux.x86_64.so.dbg_14.0.0"/>
+							<builder buildPath="${workspace_loc:/eosCore}/Debug" id="intel.builder.linux.x86_64.so.dbg.1377453780_14.0.0" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Intel Builder" superClass="intel.builder.linux.x86_64.so.dbg_14.0.0"/>
+							<tool id="intel.cpp.compilestep.linux.x86_64.so.dbg.1503150077_14.0.0" name="Intel Intel(R) 64 C++ Compiler " superClass="intel.cpp.compilestep.linux.x86_64.so.dbg_14.0.0">
+								<option id="intel.compilestep.preprocessor.includedirectories.1581572964" name="Additional Include Directories (-I)" superClass="intel.compilestep.preprocessor.includedirectories" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/include/python2.7"/>
+								</option>
+								<option id="intel.compilestep.optimization.optprefetch.1674953830" name="Enable Prefetch Insertion (-opt-prefetch[=n])" superClass="intel.compilestep.optimization.optprefetch" value="optprefetch.three" valueType="enumerated"/>
+								<option id="intel.compilestep.optimization.inline.expand1.66788407" name="Inline Function Expansion" superClass="intel.compilestep.optimization.inline.expand1" value="inl.exp1.anysuitable" valueType="enumerated"/>
+								<option id="intel.compilestep.optimization.pgo2.593591329" name="Profile Guided Optimization" superClass="intel.compilestep.optimization.pgo2" value="intel.opt.pgo.none" valueType="enumerated"/>
+								<option id="intel.compilestep.optimization.parallel.409463561" name="Parallelization (-parallel)" superClass="intel.compilestep.optimization.parallel" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.general.debug.cpp.x86_64.so.dbg.508370157_14.0.0" name="Include Debug Information (-g)" superClass="intel.compilestep.general.debug.cpp.x86_64.so.dbg_14.0.0" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.optimization.ip.1308984982" name="Enable Interprocedural Optimization for Single File Compilation (-ip)" superClass="intel.compilestep.optimization.ip" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.optimization.ipo.531173767" name="Enable Whole Program Optimization (-ipo)" superClass="intel.compilestep.optimization.ipo" value="true" valueType="boolean"/>
+								<option id="intel.compilestep.opt.matmul.1165513858" name="Optimize Matrix Multiplication" superClass="intel.compilestep.opt.matmul" value="matmul.enable" valueType="enumerated"/>
+								<inputType id="intel.cpp.compilestep.input.1499259643" superClass="intel.cpp.compilestep.input"/>
+							</tool>
+							<tool id="intel.c.compilestep.linux.x86_64.so.dbg.895864027_14.0.0" name="Intel Intel(R) 64 C Compiler" superClass="intel.c.compilestep.linux.x86_64.so.dbg_14.0.0">
+								<option id="intel.compilestep.preprocessor.includedirectories.1777202276" name="Additional Include Directories (-I)" superClass="intel.compilestep.preprocessor.includedirectories" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/include/python2.7"/>
+								</option>
+								<inputType id="intel.c.compilestep.input.639618373" superClass="intel.c.compilestep.input"/>
+							</tool>
+							<tool id="intel.c.linkstep.so.linux.x86_64.dbg.853228775_14.0.0" name="Intel Intel(R) 64 C Linker" superClass="intel.c.linkstep.so.linux.x86_64.dbg_14.0.0"/>
+							<tool id="intel.cpp.linkstep.so.linux.x86_64.dbg.1399912093_14.0.0" name="Intel Intel(R) 64 C++ Linker" superClass="intel.cpp.linkstep.so.linux.x86_64.dbg_14.0.0">
+								<inputType id="intel.linkstep.input.1703610739" superClass="intel.linkstep.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="eosCore.intel.linux.so.2.1333198742" name="Shared Library" projectType="intel.linux.so.2"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/eosCore"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/eosCore"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="intel.linux.x86_64.so.dbg.658767057_14.0.0;intel.linux.x86_64.so.dbg.658767057._14.0.0;intel.c.compilestep.linux.x86_64.so.dbg.895864027_14.0.0;intel.c.compilestep.input.639618373">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.intel.compiler.cdt.managedbuilder.ui.ICCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="intel.linux.x86_64.so.dbg.658767057_14.0.0;intel.linux.x86_64.so.dbg.658767057._14.0.0;intel.cpp.compilestep.linux.x86_64.so.dbg.1503150077_14.0.0;intel.cpp.compilestep.input.1499259643">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.intel.compiler.cdt.managedbuilder.ui.ICCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="intel.linux.x86_64.so.rel.1695024849_14.0.0;intel.linux.x86_64.so.rel.1695024849._14.0.0;intel.cpp.compilestep.linux.x86_64.so.rel.758462441_14.0.0;intel.cpp.compilestep.input.1482313907">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.intel.compiler.cdt.managedbuilder.ui.ICCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="intel.linux.x86_64.so.rel.1695024849_14.0.0;intel.linux.x86_64.so.rel.1695024849._14.0.0;intel.c.compilestep.linux.x86_64.so.rel.650768703_14.0.0;intel.c.compilestep.input.1250376304">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.intel.compiler.cdt.managedbuilder.ui.ICCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+</cproject>
