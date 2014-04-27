@@ -42,9 +42,9 @@ int func(const gsl_vector * x, void * params, gsl_vector * f){
 // 		gsl_vector_get(x, 2), 
 // 		gsl_vector_get(x, 3), 
 // 		gsl_vector_get(x, 4));
-	C->C_s = abs(gsl_vector_get(x, 0));
-	C->C_o = abs(gsl_vector_get(x, 1));
-	C->C_r = abs(gsl_vector_get(x, 2));
+	C->C_s = fabs(gsl_vector_get(x, 0));
+	C->C_o = fabs(gsl_vector_get(x, 1));
+	C->C_r = fabs(gsl_vector_get(x, 2));
 	C->b = gsl_vector_get(x, 3);
 	//C->c = abs(gsl_vector_get(x, 4));
 	C->c = gsl_vector_get(x, 4);
@@ -59,6 +59,7 @@ int func(const gsl_vector * x, void * params, gsl_vector * f){
 	//	C->C_s, C->C_o, C->C_r, C->b, C->c);
 	double temp = 0.0;
 	temp = Auxillary::SNM_BED(n0, C);// - (E0);
+	//printf("Cs= %f, temp1=%f\n", C->C_s, temp);
 	temp = temp - E0;
 	gsl_vector_set(f, 0, temp);
 	double dn = 1e-6;
@@ -83,8 +84,10 @@ struct f_params{
 	int index_y;
 	const gsl_vector * x;
 };
+
 gsl_vector * z = gsl_vector_alloc(5);
 gsl_vector * f = gsl_vector_alloc(5);
+
 double fun(double x, void * params){
 	f_params * p = (f_params *)params;
 	set_const * C = p->C;
@@ -114,6 +117,7 @@ int Jacobian(const gsl_vector * x, void * params, gsl_matrix * J){
 			fpar.index_x = j;
 			ff.params = &fpar;
 			gsl_deriv_central(&ff, gsl_vector_get(x, j), dz[j], &res, &err);
+		//	printf("%f , %f \n", gsl_vector_get(x, j), res);
 			gsl_matrix_set(J, i, j, res);
 		}
 	}
@@ -285,7 +289,7 @@ double solve(set_const * C, double n0, double f0,
 // 		printf("\n");
 // 	}
 
-	T = gsl_multiroot_fdfsolver_gnewton;
+	T = gsl_multiroot_fdfsolver_hybridsj;
 	s = gsl_multiroot_fdfsolver_alloc(T, n);
 	gsl_multiroot_fdfsolver_set (s, &m_f, x);
 
@@ -303,7 +307,7 @@ double solve(set_const * C, double n0, double f0,
 			break;
 
 		status = 
-			gsl_multiroot_test_residual (s->f, 1e-5);
+			gsl_multiroot_test_residual (s->f, 1e-6);
 	}
 	while (status == GSL_CONTINUE && iter < 1000);
 
