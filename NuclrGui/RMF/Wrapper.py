@@ -1,14 +1,15 @@
 import collections
-import eosCore
 import os
 from numpy import *
+import eosCore
+
 
 def dec_map_method(fun):
-    def wrap_args(self,x, C):
+    def wrap_args(self, x):
         if isinstance(x, collections.Iterable):
-            map(lambda z: fun(self,z,C), x)
+            return map(lambda z: fun(self, z), x)
         else:
-            fun(self,x,C)
+            return fun(self, x)
     return wrap_args
 
 class Wrapper:
@@ -26,6 +27,13 @@ class Wrapper:
         if needsTab:
             self.tabulate
             
+        self.m_pi = 134.92
+        self.Dim = self.m_pi**3
+        self.m_n = 938.0
+        self.n0 = (197.33/self.m_pi)**3 * 0.16
+
+
+            
             
     def tabulate(self):
         if not os.path.isfile(self.filename):
@@ -33,7 +41,47 @@ class Wrapper:
     
     @dec_map_method
     def P(self, n):
-        return eosCore.P(n, C)
+        return eosCore.P(n, self.C)
     
+    @dec_map_method
+    def E(self, n):
+        return eosCore.E(n, self.C)
+    
+    @dec_map_method
+    def np_eq(self, n):
+        return eosCore.np_eq(n, self.C)
+    
+    def f_eq(self, nn, np):
+        return eosCore.f_eq(nn, np, self.C)
+    
+    def star(self, start, stop, step):
+        pass
+    
+    @dec_map_method
+    def E_symm(self, n):
+        return eosCore.t_E(n/2, n/2, self.C)/(self.Dim*n) - self.m_n
+    
+    @dec_map_method
+    def E_n(self, n):
+        return eosCore.t_E(n, 0, self.C)/(self.Dim*n) - self.m_n
+    
+    @dec_map_method
+    def P_symm(self, n):
+        const = 197.33*(0.16/self.n0)**(4.0/3.0)*self.m_pi**(-4.0)
+        fun = lambda z: eosCore.t_E(z/2, z/2, self.C)
+        dn = 1e-6
+        dE = (fun(n + dn) - fun(n))/dn
+        return (n*dE - fun(n))*const
+    
+    @dec_map_method
+    def P_n(self, n):
+        const = 197.33*(0.16/self.n0)**(4.0/3.0)*self.m_pi**(-4.0)
+        fun = lambda z: eosCore.t_E(z, 0.0, self.C)
+        dn = 1e-6
+        dE = (fun(n + dn) - fun(n))/dn
+        return (n*dE - fun(n))*const 
+    
+    def Solve(self, E0=-16.0, K0=275.0, A0=32.0):
+        eosCore.solve(self.C, self.n0, self.C.f0, E0, K0, A0)
     
     
