@@ -6,32 +6,154 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>618</width>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeView" name="treeView">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>256</width>
-      <height>521</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTreeView" name="treeView"/>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Parameters</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="5" column="0">
+        <widget class="QPushButton" name="btnSolve">
+         <property name="text">
+          <string>Solve</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="linec"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>c</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineCs"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineCr"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>b</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>C_r</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Plotting</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="rbP">
+            <property name="text">
+             <string>Pressure</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="rbFeq">
+            <property name="text">
+             <string>F_eq</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="rbNp">
+            <property name="text">
+             <string>N_p</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QRadioButton" name="rbPconstr">
+            <property name="text">
+             <string>P Constraint SNM</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QRadioButton" name="rbM">
+            <property name="text">
+             <string>M(n)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QRadioButton" name="rbEtao">
+            <property name="text">
+             <string>eta_omega(f)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="btnPlot">
+            <property name="text">
+             <string>Plot</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>C_s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineb"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="LineCo"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>C_o</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>23</height>
+     <width>618</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

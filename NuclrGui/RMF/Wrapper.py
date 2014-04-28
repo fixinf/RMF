@@ -36,8 +36,7 @@ class Wrapper:
             
             
     def tabulate(self):
-        if not os.path.isfile(self.filename):
-            n = arange(0.001, 4.0, 0.01)
+        self.Ctab = eosCore.EoS_tab(self.C, self.filename, 0.001, 8*self.n0, 0.01*self.n0)
     
     @dec_map_method
     def P(self, n):
@@ -83,5 +82,6 @@ class Wrapper:
     
     def Solve(self, E0=-16.0, K0=275.0, A0=32.0):
         eosCore.solve(self.C, self.n0, self.C.f0, E0, K0, A0)
+    
     
     

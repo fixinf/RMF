@@ -1,8 +1,10 @@
 from PyQt4 import uic
 from os import path
 import sys
-from PyQt4.QtGui import QMainWindow, QWidget, QSizePolicy
+from PyQt4.QtGui import QMainWindow, QWidget, QSizePolicy, QMenu, QInputDialog
+from PyQt4 import QtCore
 from matplotlib.figure import Figure
+from PyQt4.QtCore import QModelIndex
 with open('MainWindow.ui', 'r') as infile:
     with open('ui_MainWindow.py', 'w') as outfile:
         uic.compileUi(infile, outfile)
@@ -41,16 +43,58 @@ class MainWindow(QMainWindow):
         
         self.database = RMFParams()
         self.classbase = RMFClasses()
-        class1 = RMFClasses.create(class__='TEST')
-        record1 = RMFParams.create(name='Test 1', massfile='', tabfile='',
-                                   constants='', type=class1, class__='TEST', module='')
+#         class1 = RMFClasses.create(class__='TEST')
+#         record1 = RMFParams.create(name='Test 1', massfile='', tabfile='',
+#                                    constants='', type=class1, class__='TEST', module='')
         
+        self.currentWr = None
         
         self.rootNode = Node("root")
         self.model = TreeModel(self.rootNode, self.classbase, self.database)
         self.ui.treeView.setModel(self.model)
-    
+        self.ui.treeView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.ui.treeView.customContextMenuRequested.connect(self.showTreeMenu)        
+        self.ui.treeView.selectionModel().selectionChanged.connect(self.onSelectionChanged)
         
+        
+        
+    def onSelectionChanged(self, selected, deselected):
+        index = selected.indexes()[0]
+        if index.internalPointer().parent() != self.model._rootNode:
+            print "It is not a Class"
+        
+        self.currentWr = self.getWrapper(index)
+        
+        
+    def getWrapper(self, index=QModelIndex()):
+        class__=RMFParams.get(ы)
+        
+    def showTreeMenu(self, pos):
+        index = self.ui.treeView.indexAt(pos)
+        
+#         if not index.isValid():
+#             return
+        
+        self.treeMenu = QMenu(self)
+        self.treeMenu.addAction("Add Class", self.treeMenuAddClass)
+        if index.isValid():
+            self.treeMenu.addAction("Add Params", lambda:self.treeMenuAddParams(index))
+        self.treeMenu.exec_(self.mapToGlobal(pos))
+        
+    def treeMenuAddClass(self):
+        print 'AddClass'
+        text, ok = QInputDialog.getText(self, 'Input', 'Enter class name:')
+        if ok:
+            self.model.insertClass(text, 0)
+        self.ui.treeView.expandAll()
+            
+        
+    def treeMenuAddParams(self, parentIndex):
+        print 'AddParams'
+        text, ok = QInputDialog.getText(self, 'Input', 'Enter params name:')
+        if ok:
+            self.model.insertParams(text, parentIndex)
+        self.ui.treeView.expandAll()
         
        
        

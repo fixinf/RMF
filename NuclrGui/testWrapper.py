@@ -49,6 +49,9 @@ class Test(unittest.TestCase):
         print wr.C.f0
         wr.Solve()
         
+    def testTab(self):
+        wr.tabulate()
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

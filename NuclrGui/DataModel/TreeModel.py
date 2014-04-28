@@ -1,5 +1,8 @@
 from PyQt4 import QtCore, QtGui
 import sys
+from PyQt4.QtCore import QModelIndex
+from Database import RMFClasses, RMFParams
+
 
 class Node(object):
     
@@ -37,7 +40,10 @@ class Node(object):
         child._parent = None
 
         return True
-
+    
+    def killChildren(self):
+        for i in xrange(len(self._children)):
+            self.removeChild(0)
 
     def name(self):
         return self._name
@@ -124,9 +130,9 @@ class TreeModel(QtCore.QAbstractItemModel):
 
 
     def Populate(self):
-        classes = []
-        ids = []
+        self._rootNode.killChildren()
         for item in self.classbase.select():
+            print item.class__
             class_node = Node(item.class__, self._rootNode)
             for param in item.params:
                 param_node = Node(param.name, class_node)
@@ -162,6 +168,9 @@ class TreeModel(QtCore.QAbstractItemModel):
             if index.column() == 0:
                 return node.name()
         if role == QtCore.Qt.CheckStateRole:
+            if index.internalPointer().parent == self._rootNode:
+                return None
+            
             if index in self.checked:
                 return QtCore.Qt.Checked
             else:
@@ -198,8 +207,12 @@ class TreeModel(QtCore.QAbstractItemModel):
     """INPUTS: QModelIndex"""
     """OUTPUT: int (flag)"""
     def flags(self, index):
-        return (QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | 
+        if index.internalPointer().parent() != self._rootNode:
+            return (QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | 
                         QtCore.Qt.ItemIsUserCheckable)
+        else:
+            return (QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable)
+            
 
     
 
@@ -209,6 +222,9 @@ class TreeModel(QtCore.QAbstractItemModel):
     def parent(self, index):
         
         node = self.getNode(index)
+#         if node is None:
+#             return QModelIndex()
+        
         parentNode = node.parent()
         
         if parentNode == self._rootNode:
@@ -224,8 +240,7 @@ class TreeModel(QtCore.QAbstractItemModel):
         parentNode = self.getNode(parent)
 
         childItem = parentNode.child(row)
-
-
+        
         if childItem:
             return self.createIndex(row, column, childItem)
         else:
@@ -242,7 +257,33 @@ class TreeModel(QtCore.QAbstractItemModel):
                 return node
             
         return self._rootNode
-
+    
+    def insertClass(self, name, position):
+        class_ = RMFClasses.create(class__=name)
+        self.Populate()
+        self.resetInternalData()
+        self.reset()
+        
+    def insertParams(self, name, parentIndex=QModelIndex()):
+        if not parentIndex.isValid():
+            return 
+        
+        parentNode = parentIndex.internalPointer()
+        
+        parentClass = RMFClasses.get(RMFClasses.class__==parentNode.name())
+        
+        param = RMFParams.create(name=name,
+                                 massfile='',
+                                 tabfile='',
+                                 constants='',
+                                 type=parentClass,
+                                 class__=parentClass.class__
+                                 , module='')
+        self.Populate()
+        self.resetInternalData()
+        self.reset()
+        
+        
     
     """INPUTS: int, int, QModelIndex"""
     def insertRows(self, position, rows, parent=QtCore.QModelIndex()):
