@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         
         
     def getWrapper(self, index=QModelIndex()):
-        class__=RMFParams.get(ы)
+        class__=RMFParams.get()
         
     def showTreeMenu(self, pos):
         index = self.ui.treeView.indexAt(pos)

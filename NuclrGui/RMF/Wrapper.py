@@ -54,7 +54,13 @@ class Wrapper:
         return eosCore.f_eq(nn, np, self.C)
     
     def star(self, start, stop, step):
-        pass
+        R = []
+        M = []
+        for x in arange(start, stop, step):
+            r, m, mgr = eosCore.star(x, self.Ctab)
+            R.append(r)
+            M.append(m)
+        return R, M
     
     @dec_map_method
     def E_symm(self, n):
