@@ -487,6 +487,7 @@ namespace EoS{
 
 	}
 
+	//Just a wrapper for a 2-component system!
 	double t_E(double nn, double np, double f, set_const * C) {
 		//double res = 0.5 * pow(m_n * m_n * f / C->C_s, 2.0);
 
@@ -505,6 +506,29 @@ namespace EoS{
 		n.push_back(nn);
 		n.push_back(np);
 		double res2 = t_E(n, f, C);
+
+/* REALIZED IN t_E(double, double, set_const*)*/
+//		double me = m_e;
+//
+//		double pf_e = 0;
+//		if (pow(mu_e(n[0] + n[1], n[1], f, C), 2.0) - me*me >= 0){
+//			pf_e = sqrt(pow(mu_e(n[0] + n[1], n[1], f, C), 2.0) - me*me);
+//		}
+//
+//		if (n[1] != 0.0){
+//			res2+= KineticIntegral(pf_e, m_e, C);
+//		}
+//
+//		double mmu = m_mu;
+//		double pf_mu = 0;
+//		if (pow(mu_e(n[0] + n[1], n[1], f, C), 2.0) - mmu*mmu >= 0){
+//			pf_mu = sqrt(pow(mu_e(n[0] + n[1], n[1], f, C), 2.0) - mmu*mmu);
+//		}
+//
+//		if (n[1] != 0.0){
+//			res2 += KineticIntegral(pf_mu, m_mu, C);
+//		}
+
 
 		return res2;
 	}
@@ -606,10 +630,11 @@ namespace EoS{
 		vec _n;
 		_n.push_back(n - np);
 		_n.push_back(np);
-		double f = f_eq(_n, C);
+		//double f = f_eq(_n, C);
+		//return t_E(n - np, np, f, C);
 		//printf("n = %.18f, np = %.18f, feq = %.18f \n",n , np, f);
- 		//return t_E(n - np, np, f, C);
-		return t_E(n - np, np, f, C);
+ 		return t_E(n - np, np, C);
+
 		//return 0;
 	}
 

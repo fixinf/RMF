@@ -1041,9 +1041,106 @@ public: gc_OR5_F(double Cs, double Co, double Cr,
 				return gc_OR5::phi_n(f);
 			}
 			else{
-				return gp_a*(1.0+tanh(gp_w*(gp_b-f)));
+				return 1-f-gp_a*pow(f-gp_fcut,3)/pow(cosh(gp_w*(f-gp_fcut)),2);
 			}
 		}
+};
+
+class gc_OR5_S_F : public gc_OR5_F{
+public: gc_OR5_S_F(double Cs, double Co, double Cr,
+			double b, double c, double z) :
+		gc_OR5_F(Cs, Co, Cr, b, c, z){
+			this->name = "gc_KVO(RR)_Phi";
+		};
+	double gp_d;
+	void set_gp_d(double x){
+		this->gp_d = x;
+	}
+
+	double gp_e;
+	void set_gp_e(double x){
+		this->gp_e = x;
+	}
+
+	double eta_s(double f){
+		double c1 = this->c - 8*pow(this->C_s*this->b, 2.0) / 9;
+		return pow(1.0 - 2*pow(C_s, 2.0)*b*f/3 - pow(C_s *f,2)*c1/2 + gp_d*pow(f,3)/3 + gp_e*pow(f,4)/4, -1);
+	}
+
+	double U(double f){
+		return 0.0;
+	}
+
+};
+
+class gc_OR5_S_F_J : public gc_OR5_S_F{
+public: gc_OR5_S_F_J(double Cs, double Co, double Cr,
+			double b, double c, double z) :
+		gc_OR5_S_F(Cs, Co, Cr, b, c, z){
+			this->name = "gc_KVO(RR)_Phi";
+		};
+
+	double fcut_omega;
+	void set_fcut_omega(double x){
+		this->fcut_omega = x;
+	}
+
+	double omega_a;
+	void set_omega_a(double x){
+		this->omega_a = x;
+	}
+
+	double omega_b;
+
+	double rho_a, rho_b;
+	void set_rho_a(double x){
+		this->rho_a = x;
+	}
+
+	void set_rho_b(double x){
+			this->rho_b = x;
+	}
+
+	double f_tilde;
+	void set_f_tilde(double x){
+		this->f_tilde = x;
+	}
+
+
+	void set_omega_b(double x){
+			this->omega_b = x;
+	}
+	double eta_o(double f){
+		if (f < fcut_omega){
+			return gc_OR5::eta_o(f);
+		}
+		else{
+			return gc_OR5::eta_o(f) - omega_a*pow(f-fcut_omega,3)*cosh(omega_b*(f-fcut_omega));
+		}
+	}
+	double eta_r(double f){
+		if (f < fcut_omega){
+			return gc_OR5::eta_r(f);
+		}
+		else{
+			return gc_OR5::eta_r(f) - rho_a*pow(f-fcut_omega,3)*cosh(rho_b*(f-fcut_omega));
+		}
+	}
+
+	double eta_s(double f){
+			double c1 = this->c - 8*pow(this->C_s*this->b, 2.0) / 9;
+			return pow(1.0 - 2*pow(C_s, 2.0)*b*f/3 - pow(C_s *f,2)*c1/2 + gp_d*pow(f,3)/3 + gp_e*pow(f/f_tilde,6)/6, -1);
+		}
+
+};
+
+
+class gc_OR5_Fexp: public gc_OR5_F{
+public: gc_OR5_Fexp(double Cs, double Co, double Cr,
+			double b, double c, double z) :
+		gc_OR5_F(Cs, Co, Cr, b, c, z){
+			this->name = "gc_KVO(RR)_Phi";
+		};
 };
 
 
@@ -1290,6 +1387,27 @@ BOOST_PYTHON_MODULE(eosCore){
 		.add_property("gp_w", &gc_OR5_F::gp_w)
 		.def("set_gp_w", &gc_OR5_F::set_gp_w)
 		;
+	class_<gc_OR5_Fexp, bases<gc_OR5_F> >("gc_OR5_Fexp", init<double, double, double, double, double, double>());
+	class_<gc_OR5_S_F, bases<gc_OR5_F > >("gc_OR5_S_F", init<double, double, double, double, double, double>())
+			.add_property("gp_d", &gc_OR5_S_F::gp_d)
+			.def("set_gp_d", &gc_OR5_S_F::set_gp_d)
+			.add_property("gp_e", &gc_OR5_S_F::gp_e)
+			.def("set_gp_e", &gc_OR5_S_F::set_gp_e)
+			;
+	class_<gc_OR5_S_F_J, bases<gc_OR5_S_F > >("gc_OR5_S_F_J", init<double, double, double, double, double, double>())
+			.add_property("fcut_omega", &gc_OR5_S_F_J::fcut_omega)
+			.def("set_fcut_omega", &gc_OR5_S_F_J::set_fcut_omega)
+			.add_property("omega_a", &gc_OR5_S_F_J::omega_a)
+			.def("set_omega_a", &gc_OR5_S_F_J::set_omega_a)
+			.add_property("omega_b", &gc_OR5_S_F_J::omega_b)
+			.def("set_omega_b", &gc_OR5_S_F_J::set_omega_b)
+			.add_property("rho_a", &gc_OR5_S_F_J::rho_a)
+			.def("set_rho_a", &gc_OR5_S_F_J::set_rho_a)
+			.add_property("rho_b", &gc_OR5_S_F_J::rho_b)
+			.def("set_rho_b", &gc_OR5_S_F_J::set_rho_b)
+			.add_property("f_tilde", &gc_OR5_S_F_J::f_tilde)
+			.def("set_f_tilde", &gc_OR5_S_F_J::set_f_tilde)
+			;
 }
 
 
