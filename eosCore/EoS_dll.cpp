@@ -957,6 +957,16 @@ boost::python::list star1(double n, EoS_tab CT){
 }
 
 
+boost::python::list star2(double n, set_const * C){
+	double y[3];
+	star(n, y, C);
+	boost::python::list l;
+	for (int i = 0; i < 3; i++){
+		l.append(y[i]);
+	}
+	return l;
+}
+
 double f2(double f, double nn, double np, set_const * C){
 	EoS::func_f_eq_params params = { nn, np, C };
 	return EoS::func_f_eq(f, &params);
@@ -1014,6 +1024,9 @@ public: gc_OR5_F(double Cs, double Co, double Cr,
 			double b, double c, double z) :
 		gc_OR5(Cs, Co, Cr, b, c, z){
 			this->name = "gc_KVO(RR)_Phi";
+			this->phi_c = 0.0;
+			this->phi_cpow=5.0;
+			this->phi_cfcut=0.45;
 		};
 
 		double gp_fcut;
@@ -1036,13 +1049,29 @@ public: gc_OR5_F(double Cs, double Co, double Cr,
 			this->gp_w = x;
 		}
 
+		double phi_c;
+		void set_phi_c(double x){
+			this->phi_c = x;
+		}
+
+		double phi_cpow;
+		void set_phi_cpow(double x){
+					this->phi_cpow = x;
+				}
+
+		double phi_cfcut;
+		void set_phi_cfcut(double x){
+			this->phi_cfcut = x;
+		}
 		double phi_n(double f){
-			if (f < this->gp_fcut){
-				return gc_OR5::phi_n(f);
+			double res = gc_OR5::phi_n(f);
+			if (f > this->gp_fcut){
+				res -= gp_a*pow(f-gp_fcut,3)/pow(cosh(gp_w*(f-gp_fcut)),2);
 			}
-			else{
-				return 1-f-gp_a*pow(f-gp_fcut,3)/pow(cosh(gp_w*(f-gp_fcut)),2);
+			if (f > this->phi_cfcut){
+				res += phi_c*pow(f - phi_cfcut, phi_cpow);
 			}
+			return res;
 		}
 };
 
@@ -1078,6 +1107,8 @@ public: gc_OR5_S_F_J(double Cs, double Co, double Cr,
 			double b, double c, double z) :
 		gc_OR5_S_F(Cs, Co, Cr, b, c, z){
 			this->name = "gc_KVO(RR)_Phi";
+			this->omega_c = 0.0;
+
 		};
 
 	double fcut_omega;
@@ -1093,6 +1124,10 @@ public: gc_OR5_S_F_J(double Cs, double Co, double Cr,
 	double omega_b;
 
 	double rho_a, rho_b;
+	double fcut_rho;
+	void set_fcut_rho(double x){
+		this->fcut_rho = x;
+	}
 	void set_rho_a(double x){
 		this->rho_a = x;
 	}
@@ -1110,28 +1145,79 @@ public: gc_OR5_S_F_J(double Cs, double Co, double Cr,
 	void set_omega_b(double x){
 			this->omega_b = x;
 	}
+
+	double omega_c;
+	void set_omega_c(double x){
+		this->omega_c = x;
+	}
+
+	double omega_a_l, fcut_omega_l;
+	double sigma_a_l, fcut_sigma_l;
+	double phi_a_l, fcut_phi_l;
+
+	void set_phi_a_l(double x){
+		this->phi_a_l = x;
+	}
+
+	void set_fcut_phi_l(double x){
+		this->fcut_phi_l = x;
+	}
+	void set_omega_a_l(double x){
+		this->omega_a_l = x;
+	}
+
+	void set_fcut_omega_l(double x){
+			this->fcut_omega_l = x;
+	}
+
+	void set_sigma_a_l(double x){
+		this->sigma_a_l = x;
+	}
+
+	void set_fcut_sigma_l(double x){
+		this->fcut_sigma_l = x;
+	}
+
 	double eta_o(double f){
-		if (f < fcut_omega){
+		if (f < fcut_omega_l){
+			return gc_OR5::eta_o(f) + omega_a_l*pow(fcut_omega_l - f, 3.0);
+		}
+		if ((f < fcut_omega) && (f > fcut_omega_l)){
 			return gc_OR5::eta_o(f);
 		}
 		else{
-			return gc_OR5::eta_o(f) - omega_a*pow(f-fcut_omega,3)*cosh(omega_b*(f-fcut_omega));
+			return gc_OR5::eta_o(f) - omega_a*pow(f-fcut_omega,3)*cosh(omega_b*(f-fcut_omega)) +
+					omega_c * pow(f - fcut_omega, 5.0);
 		}
 	}
+
+
 	double eta_r(double f){
-		if (f < fcut_omega){
+		if (f < fcut_rho){
 			return gc_OR5::eta_r(f);
 		}
 		else{
-			return gc_OR5::eta_r(f) - rho_a*pow(f-fcut_omega,3)*cosh(rho_b*(f-fcut_omega));
+			return gc_OR5::eta_r(f) - rho_a*pow(f-fcut_rho,3);
 		}
 	}
 
 	double eta_s(double f){
-			double c1 = this->c - 8*pow(this->C_s*this->b, 2.0) / 9;
-			return pow(1.0 - 2*pow(C_s, 2.0)*b*f/3 - pow(C_s *f,2)*c1/2 + gp_d*pow(f,3)/3 + gp_e*pow(f/f_tilde,6)/6, -1);
-		}
+		double c1 = this->c - 8*pow(this->C_s*this->b, 2.0) / 9;
+		double res = pow(1.0 - 2*pow(C_s, 2.0)*b*f/3 - pow(C_s *f,2)*c1/2 + gp_d*pow(f,3)/3 + gp_e*pow(f/f_tilde,6)/6, -1);
 
+		if (f < fcut_sigma_l){
+			res += sigma_a_l*pow(f - fcut_sigma_l, 3.0);
+		}
+		return res;
+	}
+	double phi_n(double f){
+		if (f > this->fcut_phi_l ){
+			return gc_OR5_F::phi_n(f);
+		}
+		else{
+			return gc_OR5_F::phi_n(f) - phi_a_l*f*pow((f - fcut_phi_l), 3);
+		}
+	}
 };
 
 
@@ -1241,8 +1327,9 @@ BOOST_PYTHON_MODULE(eosCore){
 // 		.add_property("C", &EoS::func_np_params::C)
 // 	;
 
-	class_<EoS_tab>("EoS_tab", init<set_const *,char*,double, double, double>());
+	class_<EoS_tab>("EoS_tab", init<set_const *,char*,double, double, double,bool>());
 	def("star", star1);
+	def("star_notab", star2);
 	def("SaturationDensity", Auxillary::SaturationDensity);
 	def("solve", solve);
 	def("f2", f2);
@@ -1386,6 +1473,12 @@ BOOST_PYTHON_MODULE(eosCore){
 		.def("set_gp_fcut", &gc_OR5_F::set_gp_fcut)
 		.add_property("gp_w", &gc_OR5_F::gp_w)
 		.def("set_gp_w", &gc_OR5_F::set_gp_w)
+		.add_property("phi_c", &gc_OR5_F::phi_c)
+		.def("set_phi_c", &gc_OR5_F::set_phi_c)
+		.add_property("phi_cpow", &gc_OR5_F::phi_cpow)
+		.def("set_phi_cpow", &gc_OR5_F::set_phi_cpow)
+		.add_property("phi_cfcut", &gc_OR5_F::phi_cfcut)
+		.def("set_phi_cfcut", &gc_OR5_F::set_phi_cfcut)
 		;
 	class_<gc_OR5_Fexp, bases<gc_OR5_F> >("gc_OR5_Fexp", init<double, double, double, double, double, double>());
 	class_<gc_OR5_S_F, bases<gc_OR5_F > >("gc_OR5_S_F", init<double, double, double, double, double, double>())
@@ -1407,6 +1500,24 @@ BOOST_PYTHON_MODULE(eosCore){
 			.def("set_rho_b", &gc_OR5_S_F_J::set_rho_b)
 			.add_property("f_tilde", &gc_OR5_S_F_J::f_tilde)
 			.def("set_f_tilde", &gc_OR5_S_F_J::set_f_tilde)
+
+			.add_property("omega_c", &gc_OR5_S_F_J::omega_c)
+			.def("set_omega_c", &gc_OR5_S_F_J::set_omega_c)
+			.add_property("fcut_rho", &gc_OR5_S_F_J::fcut_rho)
+			.def("set_fcut_rho", &gc_OR5_S_F_J::set_fcut_rho)
+			.add_property("fcut_omega_l", &gc_OR5_S_F_J::fcut_omega_l)
+			.def("set_fcut_omega_l", &gc_OR5_S_F_J::set_fcut_omega_l)
+			.add_property("fcut_sigma_l", &gc_OR5_S_F_J::fcut_sigma_l)
+			.def("set_fcut_sigma_l", &gc_OR5_S_F_J::set_fcut_sigma_l)
+			.add_property("fcut_phi_l", &gc_OR5_S_F_J::fcut_phi_l)
+			.def("set_fcut_phi_l", &gc_OR5_S_F_J::set_fcut_phi_l)
+
+			.add_property("omega_a_l", &gc_OR5_S_F_J::omega_a_l)
+			.def("set_omega_a_l", &gc_OR5_S_F_J::set_omega_a_l)
+			.add_property("sigma_a_l", &gc_OR5_S_F_J::sigma_a_l)
+			.def("set_sigma_a_l", &gc_OR5_S_F_J::set_sigma_a_l)
+			.add_property("phi_a_l", &gc_OR5_S_F_J::phi_a_l)
+			.def("set_phi_a_l", &gc_OR5_S_F_J::set_phi_a_l)
 			;
 }
 

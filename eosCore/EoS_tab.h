@@ -7,7 +7,7 @@
 class EoS_tab
 {
 public:
-	EoS_tab(set_const * C, char* filename, double start, double range, double step);
+	EoS_tab(set_const * C, char* filename, double start, double range, double step, bool forsed);
 	~EoS_tab(void);
 	double E(double n);
 	double P(double n);

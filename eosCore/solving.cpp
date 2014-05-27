@@ -293,7 +293,7 @@ double solve(set_const * C, double n0, double f0,
 	s = gsl_multiroot_fdfsolver_alloc(T, n);
 	gsl_multiroot_fdfsolver_set (s, &m_f, x);
 
-	print_state (iter, s);
+//	print_state (iter, s);
 
 	do
 	{
@@ -301,7 +301,7 @@ double solve(set_const * C, double n0, double f0,
 		//printf("DX = %.20f", s->dx);
 		status = gsl_multiroot_fdfsolver_iterate (s);
 
-		print_state (iter, s);
+//		print_state (iter, s);
 
 		if (status)   /* check if solver is stuck */
 			break;
@@ -310,8 +310,9 @@ double solve(set_const * C, double n0, double f0,
 			gsl_multiroot_test_residual (s->f, 1e-6);
 	}
 	while (status == GSL_CONTINUE && iter < 1000);
-
-	printf ("status = %s\n", gsl_strerror (status));
+	if (status != 0){
+		printf ("status = %s\n", gsl_strerror (status));
+	}
 
 	gsl_multiroot_fdfsolver_free (s);
 	gsl_vector_free (x);

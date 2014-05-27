@@ -64,14 +64,14 @@ double EofP(double P, set_const* C) {
 	int iter = 0, max_iter = 800;
 	
 	double x = 0.0, x_expect = 10.0;
-	double xmin = 0.3e-2, xmax = 20.0;
+	double xmin = 0.01, xmax = 8.5;
 	gsl_function F;
 	F.function = &func_eofp;
 	vofv_params params =  {P, C};
 	F.params = &params;
 
+	//printf("P = %f",P);
 	gsl_root_fsolver_set(s_eofp, &F, xmin, xmax);
-
 	do {
 		iter++;
 		status = gsl_root_fsolver_iterate(s_eofp);
@@ -100,8 +100,8 @@ double PofE(double E, set_const *C) {
 	//this stupid root-finder again
 	int status;
 	int iter = 0, max_iter = 800;
-	double x = 1e-3, x_expect = 10.0;
-	double xmin = 0.0, xmax = 20.0;
+	double x = 1e-1, x_expect = 10.0;
+	double xmin = 0.0, xmax = 8.5;
 	gsl_function F;
 	F.function = &func_pofe;
 	vofv_params params = {E, C};

@@ -11,7 +11,7 @@
 #include "constants.h"
 
 using namespace std;
-EoS_tab::EoS_tab(set_const * C, char* filename,double start, double range, double step):table(boost::extents[ceil(range/step)][4])
+EoS_tab::EoS_tab(set_const * C, char* filename,double start, double range, double step, bool forsed):table(boost::extents[ceil(range/step)][4])
 {
 	this->filename = filename;
 	this->C = C;
@@ -23,7 +23,12 @@ EoS_tab::EoS_tab(set_const * C, char* filename,double start, double range, doubl
 		Init();
 	}
 	else{
-		cout << this->C->name << "Initialized with filename " << this->filename << endl;
+		if (forsed){
+			Init();
+		}
+		else{
+			cout << this->C->name << "Initialized with filename " << this->filename << endl;
+		}
 	}
 
 //	Init();
@@ -209,20 +214,22 @@ int EoS_tab::Init(){
 	for (int i = ceil(start/range); i< num - 1; i++){
 		n = step*(i + 1);
 		this->table[i][0] = n;
-		np_eq = EoS::np_eq(n, n_ext,C);
-		this->table[i][1] = EoS::t_E(n-np_eq,np_eq, C);
+		np_eq = 0;//EoS::np_eq(n, n_ext,C);
+		//this->table[i][1] = EoS::t_E(n-np_eq,np_eq, C);
+		this->table[i][1] = EoS::E(n, C);
 		this->table[i][2] = EoS::P(n, C);
 		this->table[i][3] = np_eq;
 		ofs << n << "," << this->table[i][1] << "," << this->table[i][2] << "," << this->table[i][3] << ","
 			<< np_eq / n << endl;
-		cout << n << "," << this->table[i][1] << "," << this->table[i][2] << "," << this->table[i][3] << "," 
-			<< np_eq/n << endl;
+//		cout << n << "," << this->table[i][1] << "," << this->table[i][2] << "," << this->table[i][3] << ","
+//			<< np_eq/n << endl;
 	}
 	/*for (int i = ceil(start / range); i < num - 1; i++){
 		n = step*(i + 1);
 		ofs << n << "," << this->table[i][1] << "," << this->table[i][2] << "," << this->table[i][3] << endl;
 		cout << n << "," << this->table[i][1] << "," << this->table[i][2] << "," << this->table[i][3] << endl;
 	}*/
+	cout << "Done" << endl;
 	ofs.close();
 	return 0;
 }

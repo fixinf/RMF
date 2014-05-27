@@ -31,12 +31,15 @@ class Wrapper:
         self.Dim = self.m_pi**3
         self.m_n = 938.0
         self.n0 = (197.33/self.m_pi)**3 * 0.16
+        self.name = 'name unset'
+        self.const = 197.33*(0.16/self.n0)**(4.0/3.0)*self.m_pi**(-4.0)
 
-
-            
+    @dec_map_method
+    def Asymm(self, n):
+        return eosCore.Asymm(n, self.C)
             
     def tabulate(self):
-        self.Ctab = eosCore.EoS_tab(self.C, self.filename, 0.001, 8*self.n0, 0.01*self.n0)
+        self.Ctab = eosCore.EoS_tab(self.C, self.filename, 0.001, 8*self.n0, 0.01*self.n0, True)
     
     @dec_map_method
     def P(self, n):
@@ -62,6 +65,15 @@ class Wrapper:
             M.append(m)
         return R, M
     
+    def star_notab(self, start, stop, step):
+        R = []
+        M = []
+        for x in arange(start, stop, step):
+            r, m, mgr = eosCore.star_notab(x, self.C)
+            R.append(r)
+            M.append(m)
+        return R, M
+    
     @dec_map_method
     def E_symm(self, n):
         return eosCore.t_E(n/2, n/2, self.C)/(self.Dim*n) - self.m_n
@@ -72,11 +84,11 @@ class Wrapper:
     
     @dec_map_method
     def P_symm(self, n):
-        const = 197.33*(0.16/self.n0)**(4.0/3.0)*self.m_pi**(-4.0)
+ 
         fun = lambda z: eosCore.t_E(z/2, z/2, self.C)
         dn = 1e-6
         dE = (fun(n + dn) - fun(n))/dn
-        return (n*dE - fun(n))*const
+        return (n*dE - fun(n))*self.const
     
     @dec_map_method
     def P_n(self, n):

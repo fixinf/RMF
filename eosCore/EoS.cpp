@@ -112,7 +112,7 @@ namespace EoS{
 
 	double f_eq(vec n, set_const * C){
 		int status = 1;
-		double lo = 1e-5;
+		double lo = 1e-9;
 		double hi = 0.4;
 		double trystep = 0.01;
 		double res;
@@ -193,7 +193,9 @@ namespace EoS{
 		E_p = t_E(n, f, C);
 		n[i] = n[i] - dn;
 		E_m = t_E(n, f, C);
-		mu = (E_p - E_m) / (D * dn);
+		n[i] = n[i] + 2*dn;
+		double E_pp = t_E(n, f, C);
+		mu = (-3*E_m + 4*E_p - E_pp) / (D * 2 * dn);
 		return mu;
 	}
 
@@ -642,6 +644,7 @@ namespace EoS{
 	double P(double n, set_const * C) {
 		double dn = 1e-5;
 		double d_E = (E(n + dn, C) - E(n - dn, C)) / (2.0*dn);
+		//double d_E = (4*E(n + dn, C) - 3*E(n, C) - E(n + 2*dn, C)) / (2*dn);
 		return n*d_E - E(n, C);
 	}
 };
